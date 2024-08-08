@@ -7,5 +7,5 @@ import (
 
 func main(){
 	log.InitLogger()
-    lambda.Start(handler)
+    lambda.Start(handler.HandleRequest)
 }
