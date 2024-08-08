@@ -1,47 +1,36 @@
 package parser
 
 import (
-    "strings"
-    "github.com/PuerkitoBio/goquery"
-    "github.com/3milly4ever/lambda-parser-landstar/internal/model"
+	"fmt"
+	"html"
+	"strings"
+
+	"github.com/PuerkitoBio/goquery"
 )
 
-func TextToHTML(plainText string) string {
-    return "<html><body>" + strings.ReplaceAll(plainText, "\n", "<br>") + "</body></html>"
-}
-
 func ConvertToHTML(plainText string) (string, error) {
-    lines := strings.Split(plainText, "\n")
-    var htmlBuilder strings.Builder
+	lines := strings.Split(plainText, "\n")
+	var htmlBuilder strings.Builder
 
-    htmlBuilder.WriteString("<html><body>")
-    for _, line := range lines {
-        formattedLine := fmt.Sprintf("<p>%s</p>", strings.TrimSpace(line))
-        htmlBuilder.WriteString(formattedLine)
-    }
-    htmlBuilder.WriteString("</body></html>")
+	htmlBuilder.WriteString("<html><body>")
+	for _, line := range lines {
+		// Trim spaces and convert tabs to spaces
+		formattedLine := strings.TrimSpace(strings.ReplaceAll(line, "\t", " &nbsp; &nbsp; "))
 
-    return htmlBuilder.String(), nil
+		// Only add a paragraph if the line is not empty
+		if len(formattedLine) > 0 {
+			htmlBuilder.WriteString(fmt.Sprintf("<p>%s</p>", html.EscapeString(formattedLine)))
+		}
+	}
+	htmlBuilder.WriteString("</body></html>")
+
+	return htmlBuilder.String(), nil
 }
-
 
 func ParseAndFixHTML(htmlContent string) (*goquery.Document, error) {
-    doc, err := goquery.NewDocumentFromReader(strings.NewReader(htmlContent))
-    if err != nil {
-        return nil, err
-    }
-    return doc, nil
-}
-
-func ParseEmail(req model.Request) (*model.Response, error) {
-    htmlContent := TextToHTML(req.PlainText) + req.HTML
-    doc, err := ParseAndFixHTML(htmlContent)
-    if err != nil {
-        return nil, err
-    }
-
-    return &model.Response{
-        StatusCode: 200,
-        Body:       doc.Text(),
-    }, nil
+	doc, err := goquery.NewDocumentFromReader(strings.NewReader(htmlContent))
+	if err != nil {
+		return nil, err
+	}
+	return doc, nil
 }

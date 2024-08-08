@@ -6,7 +6,6 @@ import (
     "net/http"
     "github.com/aws/aws-lambda-go/events"
     "github.com/sirupsen/logrus"
-    "github.com/3milly4ever/lambda-parser-landstar/internal/log"
     "github.com/3milly4ever/lambda-parser-landstar/internal/model"
     "github.com/3milly4ever/lambda-parser-landstar/internal/parser"
 )
