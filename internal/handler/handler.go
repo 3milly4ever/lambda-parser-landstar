@@ -1,4 +1,4 @@
-package main
+package handler
 
 import (
     "context"
@@ -11,7 +11,7 @@ import (
     "github.com/3milly4ever/lambda-parser-landstar/internal/parser"
 )
 
-func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func HandleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
     logrus.Info("Received request")
     logrus.Infof("Request body: %s", request.Body)
 
