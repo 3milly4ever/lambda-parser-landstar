@@ -13,36 +13,30 @@ import (
 
 func HandleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
     logrus.Info("Received request")
-    logrus.Infof("Request body: %s", request.Body)
+    logrus.Info("Request body: ", request.Body)
 
     var req model.Request
-    err := json.Unmarshal([]byte(request.Body), &req)
-    if err != nil {
-        logrus.Errorf("Error parsing request body: %v", err)
+    if err := json.Unmarshal([]byte(request.Body), &req); err != nil {
+        logrus.Error("Error parsing request body: ", err)
         return events.APIGatewayProxyResponse{
             StatusCode: http.StatusBadRequest,
             Body:       `{"error": "Invalid request body"}`,
         }, nil
     }
 
-    logrus.Infof("Parsed request: %+v", req)
-
-    htmlContent := parser.TextToHTML(req.PlainText) + req.HTML
-    logrus.Infof("HTML Content: %s", htmlContent)
-
-    doc, err := parser.ParseAndFixHTML(htmlContent)
+    htmlContent, err := parser.ConvertToHTML(req.PlainText)
     if err != nil {
-        logrus.Errorf("Error parsing HTML: %v", err)
+        logrus.Error("Error converting text to HTML: ", err)
         return events.APIGatewayProxyResponse{
             StatusCode: http.StatusInternalServerError,
-            Body:       `{"error": "Error processing HTML"}`,
+            Body:       `{"error": "Error processing text"}`,
         }, nil
     }
 
-    logrus.Info("Successfully parsed HTML")
+    logrus.Info("Successfully converted text to HTML")
 
     return events.APIGatewayProxyResponse{
         StatusCode: http.StatusOK,
-        Body:       doc.Text(),
+        Body:       htmlContent,
     }, nil
 }
