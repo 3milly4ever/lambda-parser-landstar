@@ -2,8 +2,8 @@ package server
 
 import (
     "github.com/gofiber/fiber/v2"
-    "github.com/yourusername/project/internal/log"
-    "github.com/yourusername/project/internal/routes"
+    "github.com/3milly4ever/lambda-parser-landstar/internal/log"
+    "github.com/3milly4ever/lambda-parser-landstar/internal/routes"
 )
 
 func StartServer() {

@@ -3,6 +3,7 @@ package parser
 import (
     "strings"
     "github.com/PuerkitoBio/goquery"
+    "github.com/3milly4ever/lambda-parser-landstar/internal/model"
 )
 
 func TextToHTML(plainText string) string {

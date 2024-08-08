@@ -3,8 +3,8 @@ package routes
 import (
     "github.com/gofiber/fiber/v2"
     "github.com/sirupsen/logrus"
-    "github.com/yourusername/project/internal/model"
-    "github.com/yourusername/project/internal/parser"
+    "github.com/3milly4ever/lambda-parser-landstar/internal/model"
+    "github.com/3milly4ever/lambda-parser-landstar/internal/parser"
 )
 
 func SetupRoutes(app *fiber.App) {

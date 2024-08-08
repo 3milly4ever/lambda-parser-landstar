@@ -1,1 +1,1 @@
-{"errorMessage":"fork/exec /var/task/cmd/app/lambda/handler: no such file or directory","errorType":"PathError"}
+{"statusCode":400,"headers":null,"multiValueHeaders":null,"body":"{\"error\": \"Invalid request body\"}"}
